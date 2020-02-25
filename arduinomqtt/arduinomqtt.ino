@@ -70,6 +70,7 @@ void setup() {
   client.begin("10.0.1.1", net);
   client.onMessage(messageReceived);
   Serial.println("setup complete");
+  send_meteo();
 }
 void messageReceived(String &topic, String &payload) {
 
@@ -158,6 +159,7 @@ void publish_button(int button) {
 }
 
 void send_meteo() {
+//  Serial.println("Sending meteo");
   float temp(NAN), hum(NAN), pres(NAN);
 
   BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
@@ -165,10 +167,10 @@ void send_meteo() {
 
   bme.read(pres, temp, hum, tempUnit, presUnit);
 
+/*
   char b[5];
   dtostrf(temp, 5, 2, b);
   client.publish("domos/info/meteo/temperature", b, true, 0);
-
 
   dtostrf(hum, 5, 2, b);
   client.publish("domos/info/meteo/humidity", b, true, 0);
@@ -176,6 +178,11 @@ void send_meteo() {
   char a[8];
   dtostrf(pres, 8, 2, b);
   client.publish("domos/info/meteo/pressure", b, true, 0);
+*/
+
+  String json = "{\"temperature\":" + String(temp) + ",\"humidity\":"+ String(hum) + ",\"pressure\":" + String(pres) + "}";
+  client.publish("domos/info/meteo", json, true, 0);
+//  Serial.println(json);
 }
 
 void power_action(byte switch_id, boolean power) {
