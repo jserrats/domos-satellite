@@ -28,6 +28,8 @@ const char* codes[3][2] {
 byte button_pins[] =  {
   40, 32, 41, 33, 25, 38, 30, 39, 31, 23, 36, 28, 37, 29, 24, 34, 26, 35, 27, 22
 };
+
+byte light_pin = 6;
 void connect() {
   while (!client.connect("arduino", "try", "try")) {
     delay(1000);
@@ -65,6 +67,8 @@ void setup() {
   //octocoupler
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
+  pinMode(light_pin, OUTPUT);
+
 
   // mqtt
   client.begin("10.0.1.1", net);
@@ -73,6 +77,7 @@ void setup() {
   send_meteo();
 }
 void messageReceived(String &topic, String &payload) {
+  Serial.println(topic);
 
   // LCD
   if (topic.endsWith("lcd/0")) {
@@ -127,6 +132,15 @@ void messageReceived(String &topic, String &payload) {
     delay(1000);
     digitalWrite(5, LOW);
   }
+
+  //light pin
+  else if (topic.endsWith("pin/0")) {
+    if (payload == "on") {
+      digitalWrite(6, HIGH);
+    } else {
+      digitalWrite(6, LOW);
+    }
+  }
 }
 
 void loop() {
@@ -159,7 +173,7 @@ void publish_button(int button) {
 }
 
 void send_meteo() {
-//  Serial.println("Sending meteo");
+  //  Serial.println("Sending meteo");
   float temp(NAN), hum(NAN), pres(NAN);
 
   BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
@@ -167,22 +181,22 @@ void send_meteo() {
 
   bme.read(pres, temp, hum, tempUnit, presUnit);
 
-/*
-  char b[5];
-  dtostrf(temp, 5, 2, b);
-  client.publish("domos/info/meteo/temperature", b, true, 0);
+  /*
+    char b[5];
+    dtostrf(temp, 5, 2, b);
+    client.publish("domos/info/meteo/temperature", b, true, 0);
 
-  dtostrf(hum, 5, 2, b);
-  client.publish("domos/info/meteo/humidity", b, true, 0);
+    dtostrf(hum, 5, 2, b);
+    client.publish("domos/info/meteo/humidity", b, true, 0);
 
-  char a[8];
-  dtostrf(pres, 8, 2, b);
-  client.publish("domos/info/meteo/pressure", b, true, 0);
-*/
+    char a[8];
+    dtostrf(pres, 8, 2, b);
+    client.publish("domos/info/meteo/pressure", b, true, 0);
+  */
 
-  String json = "{\"temperature\":" + String(temp) + ",\"humidity\":"+ String(hum) + ",\"pressure\":" + String(pres) + "}";
+  String json = "{\"temperature\":" + String(temp) + ",\"humidity\":" + String(hum) + ",\"pressure\":" + String(pres) + "}";
   client.publish("domos/info/meteo", json, true, 0);
-//  Serial.println(json);
+  //  Serial.println(json);
 }
 
 void power_action(byte switch_id, boolean power) {
