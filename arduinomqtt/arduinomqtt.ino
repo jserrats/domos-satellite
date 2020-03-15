@@ -168,7 +168,7 @@ void check_buttons() {
 }
 
 void publish_button(int button) {
-  String topic = "domos/button";
+  String topic = "domos/arduino/info/button";
   client.publish(topic, String(button));
 }
 
@@ -195,7 +195,7 @@ void send_meteo() {
   */
 
   String json = "{\"temperature\":" + String(temp) + ",\"humidity\":" + String(hum) + ",\"pressure\":" + String(pres) + "}";
-  client.publish("domos/info/meteo", json, true, 0);
+  client.publish("domos/arduino/info/meteo", json, true, 0);
   //  Serial.println(json);
 }
 

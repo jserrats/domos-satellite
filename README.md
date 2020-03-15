@@ -39,7 +39,7 @@ This module is an arduino Mega with severals components that are controlled via 
 
 ### Buttons
 
-`domos/button`
+`domos/arduino/info/button`
 
 > Values 0 to 19
 
@@ -47,6 +47,6 @@ This module is an arduino Mega with severals components that are controlled via 
 
 Automatically updated every 5 minutes.
 
-`domos/info/meteo`
+`domos/arduino/info/meteo`
 
 > `{"temperature":22.18,"humidity":57.72,"pressure":1014.72}`
