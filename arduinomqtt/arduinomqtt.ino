@@ -26,10 +26,10 @@ const char* codes[3][2] {
 };
 
 byte button_pins[] =  {
-  40, 32, 41, 33, 25, 38, 30, 39, 31, 23, 36, 28, 37, 29, 24, 34, 26, 35, 27, 22
+  49,47,45,43,41,39
 };
 
-byte light_pin = 6;
+byte light_pin = 37;
 void connect() {
   while (!client.connect("arduino", "try", "try")) {
     delay(1000);
@@ -168,7 +168,7 @@ void check_buttons() {
 }
 
 void publish_button(int button) {
-  String topic = "domos/arduino/info/button";
+  String topic = "domos/arduino/button";
   client.publish(topic, String(button));
 }
 
