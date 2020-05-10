@@ -67,6 +67,8 @@ void setup() {
   //octocoupler
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
+
+  //light pin
   pinMode(light_pin, OUTPUT);
 
 
@@ -136,9 +138,9 @@ void messageReceived(String &topic, String &payload) {
   //light pin
   else if (topic.endsWith("pin/0")) {
     if (payload == "on") {
-      digitalWrite(6, HIGH);
+      digitalWrite(light_pin, HIGH);
     } else {
-      digitalWrite(6, LOW);
+      digitalWrite(light_pin, LOW);
     }
   }
 }
