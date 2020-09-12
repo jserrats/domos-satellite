@@ -73,7 +73,7 @@ void setup() {
 
 
   // mqtt
-  client.begin("10.0.1.1", net);
+  client.begin("mqtt.lan", net);
   client.onMessage(messageReceived);
   Serial.println("setup complete");
   send_meteo();

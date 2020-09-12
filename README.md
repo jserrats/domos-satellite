@@ -2,6 +2,14 @@
 
 This module is an arduino Mega with severals components that are controlled via MQTT
 
+## Dependencies
+
+* LiquidCrystal I2C by Frank de Brabander 1.1.2
+* rc-switch by sui77
+* Ethernet2 by Various
+* `git@github.com:finitespace/BME280.git` (git clone on `~/snap/arduino/41/Arduino/libraries`)
+* `git@github.com:256dpi/arduino-mqtt.git`
+
 ## Subscriptions
 
 `domos/arduino/#`
