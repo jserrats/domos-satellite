@@ -26,7 +26,7 @@ const char* codes[3][2] {
 };
 
 byte button_pins[] =  {
-  49,47,45,43,41,39
+  49, 47, 45, 43, 41, 39
 };
 
 byte light_pin = 37;
@@ -163,8 +163,11 @@ void loop() {
 void check_buttons() {
   for (int i = 0; i < sizeof(button_pins); i++) {
     if (!digitalRead(button_pins[i])) {
-      publish_button(i);
-      delay(400);
+      delay(200);
+      if (!digitalRead(button_pins[i])) {
+        publish_button(i);
+        delay(500); 
+      }
     }
   }
 }
